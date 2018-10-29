@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>Login Page</title>
+	
+    <link href="../assets/css/custom.css" rel="stylesheet" />
+
+</head>
+
+<body class="container">
+    <div class="row">
+        <form class="col s12">
+            <div>
+                <h4>Username:</h4>
+                <input type="text" id="usrname" name="username" autofocus>
+
+                <h4>Password:</h4>
+                <input type="password" id="psword" name="psword">
+
+                <input type="button" onclick="checkLoginDetails()" value="Submit" />
+                <input type="button" onclick="resetErrorMessage()" value="Reset" />
+            </div>
+            <label id="errorMessage" style="display:none; color: red;">Incorrect credentials.</label>
+        </form>
+    </div>
+    <script src="../javaScriptFiles/databaseConnectivity.js"></script>
+    <script src="../javaScriptFiles/loginPage.js"></script>
+</body>
+
+</html>

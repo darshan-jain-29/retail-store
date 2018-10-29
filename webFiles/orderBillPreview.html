@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Animation library for notifications   -->
+    <link href="../assets/css/animate.min.css" rel="stylesheet" />
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="../assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+    <!--     Fonts and icons     -->
+    <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="../assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+    <title>Order Details</title>
+    <style type="text/css" media="screen,projection">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <link href="../assets/css/custom.css" rel="stylesheet" />
+</head>
+
+<body onload="fetchBillData()">
+    <div class="wrapper">
+        <nav class="navbar navbar-default navbar-fixed" style="margin-bottom: 0px;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">New Order</a>
+                    <input type="button" id="printButton" name="printButton" value="PRINT" onclick="print()" class="btn btn-success btn-fill" />
+                </div>
+
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="content">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Invoice No</label>
+                                        <input id="invoiceNo" type="text" class="form-control" placeholder="Invoice No"
+                                            disabled style="text-align: center;">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Mobile No.</label>
+                                        <input id="mobileNo" type="number" class="form-control" placeholder="Mobile No"
+                                            disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label>Customer Name</label>
+                                        <input id="customerName" type="text" class="form-control" placeholder="Customer Name"
+                                            disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Order Date</label>
+                                        <input id="orderDate" type="text" class="form-control" placeholder="Order Date"
+                                            disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped" id="orderTable" style="margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">Product Code</th>
+                                                <th style="text-align: center;">Product Name</th>
+                                                <th style="text-align: center;">Qty</th>
+                                                <th style="text-align: center;">Pcs</th>
+                                                <th style="text-align: center;">Rs/m</th>
+                                                <th style="text-align: center;">Subtotal</th>
+                                                <th style="text-align: center;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="orderTableBody">
+                                        </tbody>
+                                        <tfoot id="orderTableFooter">
+                                            <tr class="centered">
+                                                <th style="text-align: center"></th>
+                                                <th> </th>
+                                                <th style="text-align: center" id="totalQuantityFooter">00.00</th>
+                                                <th style="text-align: center" id="totalPiecesFooter">0</th>
+                                                <th style="text-align: center">
+                                                    Gross Amt:<br>
+                                                    Discount:<br>
+                                                    Bill Amt:<br>
+                                                </th>
+                                                <th style="text-align: center">
+                                                    &#8377; <label id="billAmtFooter" style="font-size: 1em">00.00</label><br>
+                                                    &#8377; <input type="number" id="discountAmount" disabled style=" width: 5em; text-align: center;">
+                                                    <br>
+                                                    &#8377; <label id="netAmtFooter" style="font-size: 1em">00.00</label><br>
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" id="paymentDiv">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Payment mode:-</label><br>
+                                        <label id="paymentMode" style="font-size: 1.5em">Cash </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Payment status:-</label><br>
+                                        <label id="paymentStatus" style="font-size: 1.5em">Full Payment</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Amount Paid</label>
+                                        <input id="amountPaid" type="number" disabled class="form-control" placeholder="Amount Paid">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Balance Amount</label>
+                                        <input id="balanceAmount" type="number" class="form-control" placeholder="Balance Amount"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group" style="padding-left: 12px;" id="displayPaymentStatusIcon">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="../javaScriptFiles/databaseConnectivity.js"></script>
+<script src="../javaScriptFiles/orderBillPreview.js"></script>
+
+</html>
